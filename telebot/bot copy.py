@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
-TOKEN = ('6828026388:AAGmDHwmtQz5K4NL9vM8YMRYOeZqS9vhsm8')
+TOKEN = ('')
 
 async def start_command(updtae: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Hello!')
