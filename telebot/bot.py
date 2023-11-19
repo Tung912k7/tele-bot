@@ -3,8 +3,13 @@ import os
 import telebot
 
 from utils import get_daily_horoscope
+import json 
+import requests
 
-BOT_TOKEN = ('')
+BOT_TOKEN = ('6828026388:AAGmDHwmtQz5K4NL9vM8YMRYOeZqS9vhsm8')
+
+key = "https://api.binance.com/api/v3/ticker/price?symbol="
+
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
@@ -12,6 +17,9 @@ bot = telebot.TeleBot(BOT_TOKEN)
 @bot.message_handler(commands=['start', 'hello'])
 def send_welcome(message):
     bot.reply_to(message, "Howdy, how are you doing?")
+@bot.message_handler(commands=['help'])
+def send_help(message):
+    bot.reply_to(message, "I am a Coin Bot. What can I help you?")
 
 
 @bot.message_handler(commands=['horoscope'])
@@ -20,6 +28,15 @@ def sign_handler(message):
     sent_msg = bot.send_message(message.chat.id, text, parse_mode="Markdown")
     bot.register_next_step_handler(sent_msg, day_handler)
 
+@bot.message_handler(commands=['price'])
+def crypto(message):
+    price = []
+    currencies = ['BTCUSDT']
+    url = key+currencies[0]
+    data = requests.get(url) 
+    data = data.json()
+    price.append(data['price'])
+    bot.send_message(message.chat.id, price, parse_mode="Markdown")
 
 def day_handler(message):
     sign = message.text
