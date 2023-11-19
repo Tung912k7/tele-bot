@@ -3,7 +3,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 import json 
 import requests 
 
-TOKEN = ('6828026388:AAGmDHwmtQz5K4NL9vM8YMRYOeZqS9vhsm8')
+TOKEN = ('828026388:AGmDHwmtQz5K4NL9vM8YMRYOeZqS9vhsm')
 BOT_USERNAME= '@RyptCBot'
 
 price = []
