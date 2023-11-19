@@ -12,7 +12,8 @@ key = "https://api.binance.com/api/v3/ticker/price?symbol="
 
 
 bot = telebot.TeleBot(BOT_TOKEN)
-
+price = []
+cry = []
 
 @bot.message_handler(commands=['start', 'hello'])
 def send_welcome(message):
@@ -27,16 +28,50 @@ def sign_handler(message):
     text = "What's your zodiac sign?\nChoose one: *Aries*, *Taurus*, *Gemini*, *Cancer,* *Leo*, *Virgo*, *Libra*, *Scorpio*, *Sagittarius*, *Capricorn*, *Aquarius*, and *Pisces*."
     sent_msg = bot.send_message(message.chat.id, text, parse_mode="Markdown")
     bot.register_next_step_handler(sent_msg, day_handler)
+'''
+@bot.message_handler(commands=['price'])
+def price_handler(message):
+    text = "Name: "
+    sent_msg = bot.send_message(message.chat.id, text, parse_mode="Markdown")
+    bot.register_next_step_handler(sent_msg, crypto)
+
+#@bot.message_handler(commands=['price'])
+def crypto(message):
+    price = []
+    j = 0
+    currencies = ['BTCUSDT', 'ETHUSDT','USDTUSDT']
+    for i in currencies: 
+	
+        url = key+currencies[j] 
+        data = requests.get(url) 
+        data = data.json() 
+        j = j+1
+        price.append(data['price'])
+    #bot.send_message(message.chat.id, price, parse_mode="Markdown")
+'''
+#@bot.message_handler(commands=['price'])
+def get_crypto(message):
+    j = 0
+    currencies = ['BTCUSDT', 'ETHUSDT','USDTUSDT']
+    for i in currencies:
+        url = key+currencies[j] 
+        data = requests.get(url) 
+        data = data.json() 
+        j = j+1
+        price.append(data['price'])
 
 @bot.message_handler(commands=['price'])
 def crypto(message):
-    price = []
-    currencies = ['BTCUSDT']
-    url = key+currencies[0]
-    data = requests.get(url) 
-    data = data.json()
-    price.append(data['price'])
-    bot.send_message(message.chat.id, price, parse_mode="Markdown")
+    '''
+    btc = 'BTC: ' + price[0]
+    eth = 'ETH: ' + price[1]
+    usdt = 'USDT: ' + price[2]
+    cry.append(btc)
+    cry.append(eth)
+    cry.append(usdt)
+    '''
+    bot.send_message(message.chat.id, (price[0],price[1], price[2]), parse_mode="Markdown")
+
 
 def day_handler(message):
     sign = message.text
